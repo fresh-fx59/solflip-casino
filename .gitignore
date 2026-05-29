@@ -1,0 +1,30 @@
+# Rust / Anchor
+target/
+**/*.rs.bk
+test-ledger/
+.anchor/
+
+# Node / Next.js
+node_modules/
+app/.next/
+app/out/
+app/build/
+.vercel/
+*.tsbuildinfo
+next-env.d.ts
+
+# Env / secrets
+.env
+.env*.local
+*.pem
+# Keep program keypair out of git, but allow the pubkey in code/config
+**/deploy/*-keypair.json
+wallets/
+id.json
+
+# Misc
+.DS_Store
+*.log
+npm-debug.log*
+yarn-error.log
+dist/
