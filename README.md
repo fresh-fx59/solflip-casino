@@ -10,6 +10,8 @@ by anyone. The coin is a true 50/50; a win pays **1.96×** (a transparent 2% hou
 Built in ~2 days for an iGaming vibe-code challenge. Stack: **Anchor 0.31** (Rust) +
 **ORAO VRF** on-chain · **Next.js 16 + TypeScript** frontend · Dockerized behind Traefik.
 
+![SolFlip home](docs/assets/solflip-home.png)
+
 ---
 
 ## Why this is actually fair (the whole point)
