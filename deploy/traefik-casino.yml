@@ -1,0 +1,25 @@
+## Traefik Dynamic Configuration — SolFlip casino
+## Routes https://casino.aiengineerhelper.com to the `solflip-casino` Next.js
+## container (on the shared `traefik-public` Docker network, port 3000).
+## TLS uses the Cloudflare Origin Certificate from /certs/ (wildcard for
+## *.aiengineerhelper.com — same pattern as the other dynamic configs).
+
+http:
+  routers:
+    casino:
+      rule: "Host(`casino.aiengineerhelper.com`)"
+      entryPoints:
+        - websecure
+      service: casino
+      tls: {}
+
+  services:
+    casino:
+      loadBalancer:
+        servers:
+          - url: "http://solflip-casino:3000"
+
+tls:
+  certificates:
+    - certFile: /certs/cert.pem
+      keyFile: /certs/key.pem

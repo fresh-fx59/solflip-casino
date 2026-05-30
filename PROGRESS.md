@@ -5,11 +5,13 @@
 
 ## TL;DR — where we are
 
-A provably-fair coin-flip casino on **Solana devnet** (ORAO VRF). The Anchor program is
-**built, DEPLOYED to devnet, and the house is initialized + funded with a 1.5 SOL bankroll**.
-The SBF dependency hell is fully solved (see gotchas). **Next: build the frontend** (`app/` is
-scaffolded with deps installed but no UI yet), then Dockerize + route via Traefik.
-Deployer/authority wallet has **~1.05 SOL left** (deploy cost ~2.45 SOL).
+A provably-fair coin-flip casino on **Solana devnet** (ORAO VRF). **Core is DONE and LIVE.**
+Program built + deployed + house initialized + 1.5 SOL bankroll. Frontend built and **live at
+https://casino.aiengineerhelper.com** (Docker container `solflip-casino` on `traefik-public`,
+routed by `/home/claude-developer/traefik/dynamic/casino.yml`). The **full bet lifecycle is
+verified on-chain** (place_bet → ORAO fulfill → settle_bet → 1.96× payout; real txs in README).
+README + scripts done. **Remaining: human deliverables** — record the 5-min Loom, assemble the
+Notion page, send to Telegram @ryazhenkacustomers. Authority wallet ~1.0 SOL left.
 
 ## ▶️ To resume: run these in order
 
@@ -51,22 +53,21 @@ cd /home/claude-developer/igaming-challendge-casino
 
 ## ⏭️ Next steps (in priority order)
 
-1. ~~`anchor build`~~ ✅ done. ~~Deploy~~ ✅ done. ~~Init house + bankroll~~ ✅ done.
-4. **Frontend build** (CURRENT FOCUS): copy `target/idl/solflip.json` + `target/types/solflip.ts` into `app/src/`.
-   Pages/components: WalletProvider (devnet, empty `wallets={[]}`), Dashboard (wallet + casino
-   balance, deposit/withdraw), Flip game (pick side + amount → `place_bet` → `vrf.waitFulfilled(force)`
-   → `settle_bet`, Framer Motion coin), **Verify panel** (program ID, tx sigs, ORAO randomness
-   account, force seed, VRF value, payout math, Explorer `?cluster=devnet` deep links).
-5. **Tests**: `tests/solflip.ts`. Note ORAO VRF lives on devnet/mainnet only — either test against
-   devnet, or emulate the oracle locally with ORAO's `InitBuilder`/`FulfillBuilder`.
-6. **Deploy frontend** at `casino.aiengineerhelper.com`:
-   - `next build` (consider `output: 'standalone'`), Dockerfile, run container on the
-     **`traefik-public`** Docker network.
-   - Add `/home/claude-developer/traefik/dynamic/casino.yml` with a router
-     `Host(\`casino.aiengineerhelper.com\`)` → the container's service (Traefik does Cloudflare
-     DNS-challenge TLS automatically; domain is Cloudflare-proxied to this server's Traefik).
-7. **Deliverables**: finalize `README.md` (what works/doesn't, why Solana, hardest unknown,
-   what's next), record 5-min Loom, assemble Notion page, send via Telegram @ryazhenkacustomers.
+1. ~~`anchor build`~~ ✅ · ~~Deploy~~ ✅ · ~~Init house + bankroll~~ ✅ · ~~Frontend~~ ✅ ·
+   ~~Dockerize + Traefik route + live URL~~ ✅ · ~~e2e on-chain verify (smoke-bet.mjs)~~ ✅ · ~~README~~ ✅
+2. **Loom (5 min):** open https://casino.aiengineerhelper.com, connect Phantom (devnet, funded),
+   deposit → flip → show the Verify panel recompute → explorer links. Narrate the fairness model.
+3. **Notion page:** repo link, live URL, README contents, Loom embed. Send via Telegram @ryazhenkacustomers.
+4. **Redeploy frontend after code changes:** `cd app && docker build -t solflip-casino:latest . &&
+   docker rm -f solflip-casino && docker run -d --name solflip-casino --network traefik-public
+   --restart unless-stopped solflip-casino:latest` (Traefik route already in place).
+
+> All built: WalletProvider (devnet), `useSolflip` hook (Anchor + ORAO client, deposit/withdraw,
+> place→waitFulfilled→settle), framer-motion Coin, Dashboard, FlipCard, VerifyReceipt (in-browser
+> recompute). Frontend Dockerized (`app/Dockerfile`, standalone) and routed via Traefik file
+> provider (`deploy/traefik-casino.yml` mirrors the live `/home/claude-developer/traefik/dynamic/casino.yml`).
+> **Not done:** an automated Anchor test suite (`tests/solflip.ts`) — verified instead via
+> `scripts/smoke-bet.mjs` against the live devnet oracle.
 
 ## 🔑 Key facts / addresses / paths
 
@@ -74,7 +75,10 @@ cd /home/claude-developer/igaming-challendge-casino
 |---|---|
 | Repo (public) | https://github.com/fresh-fx59/solflip-casino |
 | Local path | `/home/claude-developer/igaming-challendge-casino` (branch `main`) |
-| Live URL (target) | https://casino.aiengineerhelper.com |
+| **Live URL** | https://casino.aiengineerhelper.com (HTTP 200 verified through Cloudflare) |
+| Frontend container | `solflip-casino` (image `solflip-casino:latest`), net `traefik-public`, port 3000, `--restart unless-stopped` |
+| Traefik route | `/home/claude-developer/traefik/dynamic/casino.yml` (file provider, wildcard origin cert) |
+| e2e bet (verified) | place `JLKLb1rQ…i4aAwB` · settle `54iJYVpk…dY4HPb` (won, 1.96×) |
 | **Program ID** | `AfiEkweWBAgbfZe97PH8kdfZXbQFeaetV1CoC48nr3rB` |
 | **House PDA** | `4AnGd2FJJ1augZkgDrvBtTBUU7UjYLMqdMG6Ertvfczi` (seeds `[b"house"]`) |
 | **Vault PDA** | `GHUN1SSjz4huMno91KtmVrr27xXX7WNBeHtMagguDZiS` (seeds `[b"vault"]`, holds bankroll) |
