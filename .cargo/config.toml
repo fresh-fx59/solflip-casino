@@ -1,0 +1,6 @@
+# Prefer dependency versions whose declared `rust-version` is compatible with
+# the Solana platform-tools rustc (1.79.0-dev). Without this, the resolver pulls
+# latest crates that require rust 1.85 / edition2024 and the SBF build fails.
+# Requires cargo >= 1.84 (host cargo is 1.94); the SBF build uses the resulting lock.
+[resolver]
+incompatible-rust-versions = "fallback"

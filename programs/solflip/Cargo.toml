@@ -3,6 +3,10 @@ name = "solflip"
 version = "0.1.0"
 description = "SolFlip — provably-fair coin-flip casino on Solana (ORAO VRF)"
 edition = "2021"
+# Pin MSRV to the platform-tools (SBF) rustc so the MSRV-aware resolver picks
+# dependency versions that build with the bundled toolchain (rustc 1.79.0-dev),
+# instead of pulling in crates that require rust 1.85 / edition2024.
+rust-version = "1.79.0"
 
 [lib]
 crate-type = ["cdylib", "lib"]
@@ -17,5 +21,7 @@ no-log-ix-name = []
 idl-build = ["anchor-lang/idl-build", "orao-solana-vrf/idl-build"]
 
 [dependencies]
-anchor-lang = "0.31.1"
+# `init-if-needed` is required for the player_account PDA in `Deposit`, which is
+# created on first deposit and reused afterwards. Re-init is guarded in code.
+anchor-lang = { version = "0.31.1", features = ["init-if-needed"] }
 orao-solana-vrf = { version = "0.6.1", default-features = false, features = ["cpi"] }
