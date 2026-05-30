@@ -114,6 +114,10 @@ node scripts/smoke-bet.mjs         # place + settle a real bet end-to-end
 > `.cargo/config.toml`) plus pinned transitive deps (blake3 1.5.5, indexmap 2.7.1,
 > proc-macro-crate 3.3.0). See `PROGRESS.md` if `Cargo.lock` ever needs regenerating.
 
+**More docs:** [`docs/OPERATIONS.md`](docs/OPERATIONS.md) — deploy topology, redeploy steps,
+runbook & troubleshooting · [`docs/DELIVERY.md`](docs/DELIVERY.md) — submission write-up + demo
+script · [`PROGRESS.md`](PROGRESS.md) — build state, addresses, SBF gotchas.
+
 ---
 
 ## What works · what doesn't

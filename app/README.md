@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SolFlip frontend (`app/`)
 
-## Getting Started
+The Next.js 16 + TypeScript frontend for SolFlip. See the [root README](../README.md) for the
+full project (what it is, the provably-fair model, architecture) and
+[`../docs/OPERATIONS.md`](../docs/OPERATIONS.md) for deploy/runbook.
 
-First, run the development server:
+## Develop
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+It talks to the already-deployed devnet program — just connect a wallet (Phantom, set to
+**devnet**) with a little devnet SOL.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Layout
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+src/lib/constants.ts    program ID, PDAs, ORAO ids, explorer helpers
+src/lib/useSolflip.tsx  the Anchor + ORAO client hook: deposit/withdraw and the
+                        place_bet → waitFulfilled → settle_bet state machine
+src/lib/format.ts       lamports/SOL, hex, the VRF value % 2 mapping
+src/components/         Providers (wallet, devnet) · Coin (3D framer-motion) ·
+                        Header · FlipCard · Dashboard · VerifyReceipt · Landing
+src/idl/                solflip.json + solflip.ts (copied from ../target; regenerate
+                        after a program ABI change — see docs/OPERATIONS.md)
+src/app/                layout (fonts) · page (orchestrator) · globals.css (theme)
+Dockerfile              standalone production image (see docs/OPERATIONS.md)
+```
 
-## Learn More
+## Build / production
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run build && npm start          # local production server
+# or build the container — see ../docs/OPERATIONS.md
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`next.config.ts` sets `output: "standalone"` for a small Docker image. Fonts (Fraunces, IBM Plex
+Mono, Hanken Grotesk) are fetched and self-hosted at build time via `next/font`.
