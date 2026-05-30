@@ -1,26 +1,215 @@
 @import "tailwindcss";
+@import "@solana/wallet-adapter-react-ui/styles.css";
+
+/* ─────────────────────────────────────────────────────────────────────────
+   SolFlip — "brass coin on obsidian felt"
+   Obsidian table · deep casino-green felt · brass as the hero · bone text.
+   Display: Fraunces (serif) · Data/verify: IBM Plex Mono · Body: Hanken Grotesk
+   ───────────────────────────────────────────────────────────────────────── */
+
+@theme {
+  --color-obsidian: #0a0b0a;
+  --color-obsidian-2: #111312;
+  --color-felt: #0e3a2c;
+  --color-felt-deep: #0a2a20;
+  --color-brass: #c9a227;
+  --color-brass-bright: #f0cf67;
+  --color-brass-deep: #8a6d16;
+  --color-bone: #f3eede;
+  --color-bone-dim: #b9b3a1;
+  --color-ash: #75715f;
+  --color-jade: #45d6a0;
+  --color-ember: #e07a4b;
+  --color-line: rgba(243, 238, 222, 0.09);
+
+  --font-display: var(--font-fraunces), Georgia, serif;
+  --font-sans: var(--font-hanken), system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+}
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: dark;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  height: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-obsidian);
+  color: var(--color-bone);
+  font-family: var(--font-sans);
+  /* Stage light over the felt + warm vignette */
+  background-image:
+    radial-gradient(120% 80% at 50% -10%, rgba(201, 162, 39, 0.12), transparent 55%),
+    radial-gradient(90% 70% at 50% 8%, rgba(14, 58, 44, 0.55), transparent 60%),
+    radial-gradient(100% 100% at 50% 50%, transparent 60%, rgba(0, 0, 0, 0.55) 100%);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
+
+/* Fine film grain overlay for tactile depth */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+}
+
+/* ── Typography helpers ──────────────────────────────────────────────────── */
+.font-display { font-family: var(--font-display); }
+.font-mono { font-family: var(--font-mono); }
+
+.display-xl {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+  font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 80;
+}
+
+.tnum { font-variant-numeric: tabular-nums; }
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-ash);
+}
+
+/* ── Surfaces ────────────────────────────────────────────────────────────── */
+.panel {
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0) 40%),
+    rgba(17, 19, 18, 0.72);
+  border: 1px solid var(--color-line);
+  border-radius: 18px;
+  backdrop-filter: blur(8px);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.04) inset,
+    0 24px 60px -28px rgba(0, 0, 0, 0.9);
+}
+
+.felt {
+  background:
+    radial-gradient(130% 100% at 50% 0%, rgba(69, 214, 160, 0.06), transparent 60%),
+    linear-gradient(180deg, var(--color-felt) 0%, var(--color-felt-deep) 100%);
+  border: 1px solid rgba(69, 214, 160, 0.14);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.4) inset,
+    0 40px 80px -40px rgba(0, 0, 0, 0.95);
+}
+
+/* Brass chip / pill for verifiable links */
+.chip {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.28rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-line);
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--color-bone-dim);
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+a.chip:hover {
+  border-color: rgba(201, 162, 39, 0.5);
+  color: var(--color-brass-bright);
+  background: rgba(201, 162, 39, 0.06);
+}
+
+/* ── Buttons ─────────────────────────────────────────────────────────────── */
+.btn-brass {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: #20180a;
+  background: linear-gradient(180deg, var(--color-brass-bright), var(--color-brass) 55%, var(--color-brass-deep));
+  border: 1px solid rgba(255, 244, 200, 0.5);
+  border-radius: 12px;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.55) inset,
+    0 -6px 14px -8px rgba(0, 0, 0, 0.6) inset,
+    0 14px 30px -14px rgba(201, 162, 39, 0.65);
+  transition: transform 0.12s ease, box-shadow 0.2s, filter 0.2s;
+}
+.btn-brass:hover:not(:disabled) { filter: brightness(1.06); transform: translateY(-1px); }
+.btn-brass:active:not(:disabled) { transform: translateY(1px); filter: brightness(0.97); }
+.btn-brass:disabled { opacity: 0.4; cursor: not-allowed; filter: grayscale(0.4); }
+
+.btn-ghost {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  color: var(--color-bone-dim);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--color-line);
+  border-radius: 12px;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+.btn-ghost:hover:not(:disabled) { border-color: rgba(201, 162, 39, 0.4); color: var(--color-bone); }
+.btn-ghost:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Inputs */
+.field {
+  font-family: var(--font-mono);
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--color-line);
+  border-radius: 12px;
+  color: var(--color-bone);
+  transition: border-color 0.2s;
+}
+.field:focus { outline: none; border-color: rgba(201, 162, 39, 0.55); }
+.field::placeholder { color: var(--color-ash); }
+
+/* ── Wallet-adapter overrides (kill the default purple) ──────────────────── */
+.wallet-adapter-button {
+  font-family: var(--font-sans) !important;
+  font-weight: 600 !important;
+  height: 42px !important;
+  padding: 0 18px !important;
+  border-radius: 12px !important;
+  color: #20180a !important;
+  background: linear-gradient(180deg, var(--color-brass-bright), var(--color-brass) 55%, var(--color-brass-deep)) !important;
+  border: 1px solid rgba(255, 244, 200, 0.5) !important;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset, 0 14px 30px -16px rgba(201, 162, 39, 0.6) !important;
+  transition: filter 0.2s, transform 0.12s !important;
+}
+.wallet-adapter-button:not([disabled]):hover { filter: brightness(1.06); transform: translateY(-1px); }
+.wallet-adapter-button-trigger { background: linear-gradient(180deg, var(--color-brass-bright), var(--color-brass) 55%, var(--color-brass-deep)) !important; }
+.wallet-adapter-modal-wrapper { background: var(--color-obsidian-2) !important; border: 1px solid var(--color-line) !important; border-radius: 18px !important; }
+.wallet-adapter-modal-title { font-family: var(--font-display) !important; color: var(--color-bone) !important; }
+.wallet-adapter-modal-list .wallet-adapter-button { background: rgba(255,255,255,0.03) !important; color: var(--color-bone) !important; border: 1px solid var(--color-line) !important; box-shadow: none !important; }
+
+/* ── Animations ──────────────────────────────────────────────────────────── */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.rise { animation: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgba(201, 162, 39, 0.4); }
+  70% { box-shadow: 0 0 0 16px rgba(201, 162, 39, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(201, 162, 39, 0); }
+}
+.pulse-ring { animation: pulse-ring 1.8s ease-out infinite; }
+
+@keyframes breathe {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+.breathe { animation: breathe 2.4s ease-in-out infinite; }
+
+* { scrollbar-width: thin; scrollbar-color: var(--color-brass-deep) transparent; }
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: var(--color-brass-deep); border-radius: 999px; }

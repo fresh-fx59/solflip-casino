@@ -28,3 +28,6 @@ id.json
 npm-debug.log*
 yarn-error.log
 dist/
+
+# repo-root symlink -> app/node_modules (for scripts/*.mjs)
+/node_modules
