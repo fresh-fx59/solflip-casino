@@ -1,6 +1,6 @@
 # SolFlip — a provably-fair coin-flip casino on Solana
 
-**Live:** https://casino.aiengineerhelper.com · **Network:** Solana **devnet**
+**Live:** https://casino.example.com · **Network:** Solana **devnet**
 **Program:** [`AfiEkweWBAgbfZe97PH8kdfZXbQFeaetV1CoC48nr3rB`](https://explorer.solana.com/address/AfiEkweWBAgbfZe97PH8kdfZXbQFeaetV1CoC48nr3rB?cluster=devnet)
 
 Flip a coin where the randomness comes from an **on-chain VRF oracle you can verify**,

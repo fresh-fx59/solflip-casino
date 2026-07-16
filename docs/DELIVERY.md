@@ -19,7 +19,7 @@ A coin-flip casino where you don't have to trust the house: randomness comes fro
 on-chain VRF oracle, the payout math is public, and **every bet is reproducible by anyone**.
 
 **Links**
-- 🎰 **Live demo:** https://casino.aiengineerhelper.com  *(Solana devnet — connect Phantom with devnet SOL)*
+- 🎰 **Live demo:** https://casino.example.com  *(Solana devnet — connect Phantom with devnet SOL)*
 - 💻 **Repo:** https://github.com/fresh-fx59/solflip-casino
 - 🎬 **Walkthrough (5 min):** ‹LOOM_URL›
 - 🔗 **Program (Explorer):** [`AfiEkweWBAgbfZe97PH8kdfZXbQFeaetV1CoC48nr3rB`](https://explorer.solana.com/address/AfiEkweWBAgbfZe97PH8kdfZXbQFeaetV1CoC48nr3rB?cluster=devnet)

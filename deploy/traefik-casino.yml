@@ -1,13 +1,13 @@
 ## Traefik Dynamic Configuration — SolFlip casino
-## Routes https://casino.aiengineerhelper.com to the `solflip-casino` Next.js
+## Routes https://casino.example.com to the `solflip-casino` Next.js
 ## container (on the shared `traefik-public` Docker network, port 3000).
 ## TLS uses the Cloudflare Origin Certificate from /certs/ (wildcard for
-## *.aiengineerhelper.com — same pattern as the other dynamic configs).
+## *.example.com — same pattern as the other dynamic configs).
 
 http:
   routers:
     casino:
-      rule: "Host(`casino.aiengineerhelper.com`)"
+      rule: "Host(`casino.example.com`)"
       entryPoints:
         - websecure
       service: casino

@@ -6,12 +6,12 @@ resume guide and the SBF dependency gotchas, see [`../PROGRESS.md`](../PROGRESS.
 ## Topology
 
 ```
-browser ──HTTPS──▶ Cloudflare (casino.aiengineerhelper.com, proxied)
+browser ──HTTPS──▶ Cloudflare (casino.example.com, proxied)
                       │
-                      ▼  HTTPS to origin 31.220.78.216:443
+                      ▼  HTTPS to origin 203.0.113.10:443
                    Traefik  (container `traefik`, v3.3, network traefik-public)
                       │  file provider: /home/claude-developer/traefik/dynamic/casino.yml
-                      │  router Host(`casino.aiengineerhelper.com`) → service casino
+                      │  router Host(`casino.example.com`) → service casino
                       ▼  http://solflip-casino:3000  (Docker DNS, same network)
                    solflip-casino  (Next.js standalone, container, port 3000)
                       │  browser → public devnet RPC + ORAO VRF
@@ -43,7 +43,7 @@ needed. Verify:
 
 ```bash
 docker logs solflip-casino | tail            # expect "✓ Ready"
-curl -s -o /dev/null -w "%{http_code}\n" https://casino.aiengineerhelper.com/   # expect 200
+curl -s -o /dev/null -w "%{http_code}\n" https://casino.example.com/   # expect 200
 ```
 
 > Optional: pass a dedicated RPC at build time with
