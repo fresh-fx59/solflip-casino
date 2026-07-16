@@ -7,11 +7,11 @@
 
 A provably-fair coin-flip casino on **Solana devnet** (ORAO VRF). **Core is DONE and LIVE.**
 Program built + deployed + house initialized + 1.5 SOL bankroll. Frontend built and **live at
-https://casino.aiengineerhelper.com** (Docker container `solflip-casino` on `traefik-public`,
+https://casino.example.com** (Docker container `solflip-casino` on `traefik-public`,
 routed by `/home/claude-developer/traefik/dynamic/casino.yml`). The **full bet lifecycle is
 verified on-chain** (place_bet → ORAO fulfill → settle_bet → 1.96× payout; real txs in README).
 README + scripts done. **Remaining: human deliverables** — record the 5-min Loom, assemble the
-Notion page, send to Telegram @ryazhenkacustomers. Authority wallet ~1.0 SOL left.
+Notion page, send to Telegram <challenge-contact>. Authority wallet ~1.0 SOL left.
 
 ## ▶️ To resume: run these in order
 
@@ -55,9 +55,9 @@ cd /home/claude-developer/igaming-challendge-casino
 
 1. ~~`anchor build`~~ ✅ · ~~Deploy~~ ✅ · ~~Init house + bankroll~~ ✅ · ~~Frontend~~ ✅ ·
    ~~Dockerize + Traefik route + live URL~~ ✅ · ~~e2e on-chain verify (smoke-bet.mjs)~~ ✅ · ~~README~~ ✅
-2. **Loom (5 min):** open https://casino.aiengineerhelper.com, connect Phantom (devnet, funded),
+2. **Loom (5 min):** open https://casino.example.com, connect Phantom (devnet, funded),
    deposit → flip → show the Verify panel recompute → explorer links. Narrate the fairness model.
-3. **Notion page:** repo link, live URL, README contents, Loom embed. Send via Telegram @ryazhenkacustomers.
+3. **Notion page:** repo link, live URL, README contents, Loom embed. Send via Telegram <challenge-contact>.
 4. **Redeploy frontend after code changes:** `cd app && docker build -t solflip-casino:latest . &&
    docker rm -f solflip-casino && docker run -d --name solflip-casino --network traefik-public
    --restart unless-stopped solflip-casino:latest` (Traefik route already in place).
@@ -75,7 +75,7 @@ cd /home/claude-developer/igaming-challendge-casino
 |---|---|
 | Repo (public) | https://github.com/fresh-fx59/solflip-casino |
 | Local path | `/home/claude-developer/igaming-challendge-casino` (branch `main`) |
-| **Live URL** | https://casino.aiengineerhelper.com (HTTP 200 verified through Cloudflare) |
+| **Live URL** | https://casino.example.com (HTTP 200 verified through Cloudflare) |
 | Frontend container | `solflip-casino` (image `solflip-casino:latest`), net `traefik-public`, port 3000, `--restart unless-stopped` |
 | Traefik route | `/home/claude-developer/traefik/dynamic/casino.yml` (file provider, wildcard origin cert) |
 | e2e bet (verified) | place `JLKLb1rQ…i4aAwB` · settle `54iJYVpk…dY4HPb` (won, 1.96×) |

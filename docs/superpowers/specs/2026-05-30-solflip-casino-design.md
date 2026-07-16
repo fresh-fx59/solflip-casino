@@ -15,7 +15,7 @@ The casino logic must be **verifiable on a block explorer** — a paranoid playe
 be able to confirm it is not a scam. The house must have a mathematical edge.
 
 **Definition of done:** deployed Anchor program on devnet + live frontend at
-`https://casino.aiengineerhelper.com`, full deposit→play→withdraw loop working, every
+`https://casino.example.com`, full deposit→play→withdraw loop working, every
 action linkable on Solana Explorer (`?cluster=devnet`), README + Loom.
 
 ## 2. Why Solana (over Ethereum)
@@ -119,7 +119,7 @@ exactly to the on-chain window between request and fulfilment — honest, not fa
 - **Program:** `anchor deploy` to devnet from the funded deployer keypair
   (`36i1HkahCQb7nFbuAGq6PZiEKWuuKzHkevqLqbwoEA8Q`).
 - **Frontend:** static/Next.js build in a Docker container on the existing `traefik-public`
-  network; a Traefik dynamic config file routes `Host(casino.aiengineerhelper.com)` to it.
+  network; a Traefik dynamic config file routes `Host(casino.example.com)` to it.
   Traefik already does Cloudflare DNS-challenge TLS; the domain is Cloudflare-proxied to it.
 
 ## 8. Scope / YAGNI
